@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<UserSecretsId>8fb1807d-036d-45b4-bd18-7eadb4a05f10</UserSecretsId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.AI.OpenAI" Version="2.2.0-beta.2" />
+		<PackageReference Include="Azure.Identity" Version="1.14.0-beta.1" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
+		<PackageReference Include="Microsoft.ApplicationInsights.SnapshotCollector" Version="1.4.6" />
+		<PackageReference Include="Microsoft.AspNetCore.AzureAppServices.HostingStartup" Version="9.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Extensions.AI" Version="9.3.0-preview.1.25114.11" />
+		<PackageReference Include="Microsoft.Extensions.AI.Ollama" Version="9.3.0-preview.1.25114.11" />
+		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.3.0-preview.1.25114.11" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+		<PackageReference Include="NJsonSchema" Version="11.1.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.managedidenties.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<ExcludeFromPublish>true</ExcludeFromPublish>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Factories\" />
+	</ItemGroup>
+
+
+</Project>
