@@ -10,6 +10,8 @@ namespace HW4NoteKeeper.Interfaces
         
         Task<IEnumerable<AttachmentDetails>> GetNoteAttachmentDetails(Guid noteId);
 
+        Task<BlobStorageResponseUpdateCreate> PutAttachment(Attachment attachment);
+
         Task<BlobStorageResponseUpdateCreate> PutAttachment(DtoAttachment dtoAttachment);
 
         Task<BlobStorageResponseDelete> DeleteAttachment(Guid noteId, string attachmentId);

@@ -3,6 +3,7 @@ using Azure.Core;
 using Azure.Identity;
 using HW4NoteKeeper.Data;
 using HW4NoteKeeper.Infrastructure.Settings;
+using HW4NoteKeeper.Interfaces;
 using HW4NoteKeeper.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -54,10 +55,11 @@ namespace HW4NoteKeeper.Infrastructure.Services
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<NotesAppDatabaseContext>();
                 var aiClient = serviceScope.ServiceProvider.GetRequiredService<MyOpenAiClient>();
+                var azStorage = serviceScope.ServiceProvider.GetRequiredService<IAzureStorageDataAccessLayer>();
 
                 try
                 {
-                    await NotesAppDatabaseInitializer.InitilizeDbAsync(context, aiClient);
+                    await NotesAppDatabaseInitializer.InitilizeDbAsync(context, aiClient, azStorage);
                 }
                 catch (Exception ex)
                 {

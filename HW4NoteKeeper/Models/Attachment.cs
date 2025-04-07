@@ -25,7 +25,10 @@ namespace HW4NoteKeeper.Models
         [JsonProperty("attachmentId")]
         public string AttachmentId { get; set; } = "";
 
-        [JsonProperty("attachmentId")]
+        /// <summary>
+        /// The file data of the attachment.  This is the file that is uploaded to the server.
+        /// </summary>
+        [JsonProperty("fileData")]
         public required IFormFile FileData { get; set; }
     }
 }

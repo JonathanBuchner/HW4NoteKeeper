@@ -80,11 +80,8 @@ namespace HW4NoteKeeper.DataAccessLayer
             return attachmentDetailsList;
         }
 
-
-        public async Task<BlobStorageResponseUpdateCreate> PutAttachment(DtoAttachment dtoAttachment)
+        public async Task<BlobStorageResponseUpdateCreate> PutAttachment(Attachment attachment)
         {
-            var attachment = AttachmentValidator.GetAttachmentFromDto(dtoAttachment);
-
             // Create a container if it doesn't exist
             var containerClient = await GetContainer(attachment.NoteId.ToString());
 
@@ -110,6 +107,13 @@ namespace HW4NoteKeeper.DataAccessLayer
             }
 
             return BlobStorageResponseUpdateCreate.Created;
+        }
+
+        public async Task<BlobStorageResponseUpdateCreate> PutAttachment(DtoAttachment dtoAttachment)
+        {
+            var attachment = AttachmentValidator.GetAttachmentFromDto(dtoAttachment);
+
+            return await PutAttachment(attachment);
         }
 
         public async Task<BlobStorageResponseDelete> DeleteAttachment(Guid noteId, string attachmentId)
