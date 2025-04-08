@@ -20,6 +20,12 @@ namespace HW4NoteKeeper.Validators
             }
         }
 
+        /// <summary>
+        /// Validates the note settings.
+        /// </summary>
+        /// <param name="noteSettings"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static void ValidateNoteSettings(NoteSettings noteSettings)
         {
             if (noteSettings == null)

@@ -32,6 +32,9 @@ namespace HW4NoteKeeper
             // Build
             var app = builder.Build();
 
+            // Validate services
+            ValidateServices.Validate(app);
+
             // Seed database if needed
             await RegistererEntityFramework.InitalizeDatabase(app);
 

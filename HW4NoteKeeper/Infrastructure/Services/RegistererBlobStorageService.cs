@@ -1,28 +1,38 @@
 ﻿using HW4NoteKeeper.DataAccessLayer;
 using HW4NoteKeeper.Infrastructure.Settings;
 using HW4NoteKeeper.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace HW4NoteKeeper.Infrastructure.Services
 {
+    /// <summary>
+    /// Register blob storage service
+    /// </summary>
     public class RegistererBlobStorageService
     {
+        /// <summary>
+        /// Register the blob storage service with the DI container
+        /// </summary>
+        /// <param name="builder">builder</param>
         public static void AddBlobStorageService(WebApplicationBuilder builder)
         {
-            var settings = AddBlobStorageSettings(builder);
+            builder.Services.Configure<AzureStorageDataAccessLayerSettings>(
+                builder.Configuration.GetSection(nameof(AzureStorageDataAccessLayerSettings)));
 
-            builder.Services.AddSingleton<IAzureStorageDataAccessLayer>(serviceProvider => new AzureStorageDataAccessLayer(settings));
+            // Register the service with settings resolved from IOptions
+            builder.Services.AddSingleton<IAzureStorageDataAccessLayer>(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<AzureStorageDataAccessLayerSettings>>().Value;
+                ValidateBlobSettings(settings);
+                return new AzureStorageDataAccessLayer(settings);
+            });
         }
 
-        private static AzureStorageDataAccessLayerSettings AddBlobStorageSettings(WebApplicationBuilder builder)
-        {
-            var blobSettings = new AzureStorageDataAccessLayerSettings();
-            builder.Configuration.GetSection(nameof(AzureStorageDataAccessLayerSettings)).Bind(blobSettings);
-            ValidateBlobSettings(blobSettings);
-            builder.Services.AddSingleton(implementationInstance: blobSettings);
-
-            return blobSettings;
-        }
-
+        /// <summary>
+        /// Validate the blob settings.
+        /// </summary>
+        /// <param name="blobSettings">blob settings</param>
+        /// <exception cref="ArgumentException">Thrown if connecting string is empty</exception>
         private static void ValidateBlobSettings(AzureStorageDataAccessLayerSettings blobSettings)
         {
             if (string.IsNullOrEmpty(blobSettings.ConnectionString))

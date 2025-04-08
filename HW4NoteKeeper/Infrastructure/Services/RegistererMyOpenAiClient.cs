@@ -17,7 +17,9 @@ namespace HW4NoteKeeper.Infrastructure.Services
         /// <param name="builder">web applicatoin builder</param>
         public static void AddOpenAiClient(WebApplicationBuilder builder)
         {
-            var settings = builder.Services.BuildServiceProvider().GetRequiredService<AiModelSettings>();
+            var settings = new AiModelSettings();
+            builder.Configuration.GetSection(nameof(AiModelSettings)).Bind(settings);
+            builder.Services.AddSingleton(settings);
 
             var openAiServiceEndpoint = new Uri(settings.EndpointUri);
             var apiKeyCredential = new AzureKeyCredential(settings.ApiKey);

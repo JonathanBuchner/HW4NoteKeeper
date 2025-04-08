@@ -1,4 +1,6 @@
-﻿namespace HW4NoteKeeper.Infrastructure.Middleware
+﻿using System.Net.Mail;
+
+namespace HW4NoteKeeper.Infrastructure.Middleware
 {
     /// <summary>
     /// Middleware to handle requests delete and patch requests missing id
@@ -54,6 +56,7 @@
 
                 if (routeData.Values.ContainsKey("controller"))
                 {
+                    // Notes controller
                     if (routeData.Values["controller"].ToString().ToLower() == "notes")
                     {
                         if (!routeData?.Values.ContainsKey("id") ?? true)
@@ -62,6 +65,7 @@
                         }
                     }
 
+                    // Attachment controller
                     if (routeData.Values["controller"].ToString().ToLower() == "attachments")
                     {
                         if (!routeData?.Values.ContainsKey("noteId") ?? true)

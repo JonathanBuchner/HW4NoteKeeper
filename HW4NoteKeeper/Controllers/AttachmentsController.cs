@@ -12,12 +12,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HW4NoteKeeper.Controllers
 {
+    /// <summary>
+    /// Controller for managing attachments to notes.
+    /// </summary>
     [ApiController]
     [Route("notes/{noteId}/attachments")]
     public class AttachmentsController : BaseController
     {
+        /// <summary>
+        /// Attachment validator for validating attachment data.
+        /// </summary>
         private readonly AttachmentValidator _attachmentValidator;
 
+        /// <summary>
+        /// Application logger for logging attachment-related events.
+        /// </summary>
         private readonly IApplicationLogger<DtoAttachment> _al;
 
         public AttachmentsController(
@@ -32,7 +41,12 @@ namespace HW4NoteKeeper.Controllers
             _attachmentValidator = new AttachmentValidator(telemetryClient);
             _al = new ApplicationLogger<DtoAttachment>(telemetryClient, logger);
         }
-
+        /// <summary>
+        /// Get attachment from note.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <param name="attachmentId">Attachment Id</param>
+        /// <returns>attachment as fileStream</returns>
         [HttpGet("{attachmentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,6 +77,11 @@ namespace HW4NoteKeeper.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all attachments from note.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <returns>Json list of attachments</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -241,6 +260,14 @@ namespace HW4NoteKeeper.Controllers
             }
         }
 
+        /// <summary>
+        /// Handle the response from the blob storage delete. Uses BlobStorageResponse enum to determine the response.
+        /// </summary>
+        /// <param name="response">Blob storage response</param>
+        /// <param name="noteId">note id</param>
+        /// <param name="attachmentId">attachment id</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private IActionResult HandleblobStorageDeleteResponse(BlobStorageResponseDelete response, Guid noteId, string attachmentId)
         {
             switch (response)

@@ -12,9 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HW4NoteKeeper.DataAccessLayer
 {
+    /// <summary>
+    /// Azure Storage Data Access Layer.  This class is used to access the Azure Storage Blob service and perform CRUD operations on blobs.
+    /// </summary>
     public class AzureStorageDataAccessLayer : IAzureStorageDataAccessLayer
     {
+        /// <summary>
+        /// Settings for the Azure Storage Data Access Layer.
+        /// </summary>
         private readonly AzureStorageDataAccessLayerSettings _settings;
+
+        /// <summary>
+        /// Blob service client for the Azure Storage Data Access Layer.
+        /// </summary>
         private readonly BlobServiceClient _blobServiceClient;
 
         public AzureStorageDataAccessLayer(AzureStorageDataAccessLayerSettings settings)
@@ -23,6 +33,12 @@ namespace HW4NoteKeeper.DataAccessLayer
             _blobServiceClient = new BlobServiceClient(settings.ConnectionString);
         }
 
+        /// <summary>
+        /// Get an attachment from blob storage.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <param name="attachmentId">attachment id</param>
+        /// <returns>file stream</returns>
         public async Task<FileStreamResult?> GetAttachment(Guid noteId, string attachmentId)
         {
             var containerClient = await GetContainer(noteId.ToString());
@@ -34,7 +50,6 @@ namespace HW4NoteKeeper.DataAccessLayer
                 return null;
             }
 
-            //
             var blobDownloadInfo = await blobClient.DownloadAsync();
             var contentType = blobDownloadInfo.Value.ContentType;
             var fileStream = blobDownloadInfo.Value.Content; 
@@ -45,6 +60,11 @@ namespace HW4NoteKeeper.DataAccessLayer
             };
         }
 
+        /// <summary>
+        /// Get all attachment information for a note.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <returns>Attachment details for each note</returns>
         public async Task<IEnumerable<AttachmentDetails>> GetNoteAttachmentDetails(Guid noteId)
         {
             var containerClient = await GetContainer(noteId.ToString());
@@ -80,6 +100,11 @@ namespace HW4NoteKeeper.DataAccessLayer
             return attachmentDetailsList;
         }
 
+        /// <summary>
+        /// Put an attachment to blob storage.  This method will create a new blob if it does not exist, or update the existing blob if it does exist.
+        /// </summary>
+        /// <param name="attachment">Attachment</param>
+        /// <returns></returns>
         public async Task<BlobStorageResponseUpdateCreate> PutAttachment(Attachment attachment)
         {
             // Create a container if it doesn't exist
@@ -109,6 +134,11 @@ namespace HW4NoteKeeper.DataAccessLayer
             return BlobStorageResponseUpdateCreate.Created;
         }
 
+        /// <summary>
+        /// Put an attachment to blob storage.  This method will create a new blob if it does not exist, or update the existing blob if it does exist.
+        /// </summary>
+        /// <param name="dtoAttachment">attachment</param>
+        /// <returns></returns>
         public async Task<BlobStorageResponseUpdateCreate> PutAttachment(DtoAttachment dtoAttachment)
         {
             var attachment = AttachmentValidator.GetAttachmentFromDto(dtoAttachment);
@@ -116,6 +146,12 @@ namespace HW4NoteKeeper.DataAccessLayer
             return await PutAttachment(attachment);
         }
 
+        /// <summary>
+        /// Delete an attachment from blob storage.  This method will delete the blob only if it exists.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <param name="attachmentId">Attachment id</param>
+        /// <returns></returns>
         public async Task<BlobStorageResponseDelete> DeleteAttachment(Guid noteId, string attachmentId)
         {
 
@@ -132,6 +168,11 @@ namespace HW4NoteKeeper.DataAccessLayer
             return BlobStorageResponseDelete.Deleted;
         }
 
+        /// <summary>
+        /// Delete an attachment container from blob storage.  This method will delete the container only if it exists.
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         public async Task<BlobStorageResponseDelete> DeleteAttachmentContainer(Guid noteId)
         {
             var containerClient = CreateBlobContainerClient(noteId.ToString());
@@ -156,11 +197,20 @@ namespace HW4NoteKeeper.DataAccessLayer
             return new BlobContainerClient(_settings.ConnectionString, containerName);
         }
 
+        /// <summary>
+        /// Get the maximum number of attachments allowed in a container.
+        /// </summary>
+        /// <returns></returns>
         public int GetMaxAttachments()
         {
             return _settings.MaxAttachments;
         }
 
+        /// <summary>
+        /// Check if the maximum number of blobs has been exceeded in the container.
+        /// </summary>
+        /// <param name="containerClient">Blob client</param>
+        /// <returns></returns>
         private async Task<bool> IsMaxBlobsExceeded(BlobContainerClient containerClient)
         {
             var blobCount = 0;
@@ -177,6 +227,11 @@ namespace HW4NoteKeeper.DataAccessLayer
             return false;
         }
 
+        /// <summary>
+        /// Get a container for the blob client.  This method will create a new container if it does not exist.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private async Task<BlobContainerClient> GetContainer(string name)
         {
             var containerClient = CreateBlobContainerClient(name);
@@ -190,6 +245,12 @@ namespace HW4NoteKeeper.DataAccessLayer
             return containerClient;
         }
 
+        /// <summary>
+        /// Upload a file to blob storage.  This method will create a new blob if it does not exist, or update the existing blob if it does exist.
+        /// </summary>
+        /// <param name="blobClient"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
         private async Task UploadFile(BlobClient blobClient, IFormFile file)
         {
             using Stream fileStream = file.OpenReadStream();
@@ -197,6 +258,13 @@ namespace HW4NoteKeeper.DataAccessLayer
             await blobClient.UploadAsync(fileStream, new BlobHttpHeaders() { ContentType = file.ContentType });
         }
 
+        /// <summary>
+        /// Get metadata for the uploading of a blob.
+        /// </summary>
+        /// <param name="blobClient"></param>
+        /// <param name="existed"></param>
+        /// <param name="attachment"></param>
+        /// <returns></returns>
         private async Task<Dictionary<string, string>> GetMetaDataForUploadedBlob(BlobClient blobClient, bool existed, Attachment attachment)
         {
             var metaData = new Dictionary<string, string>

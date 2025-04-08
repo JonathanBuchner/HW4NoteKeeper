@@ -12,6 +12,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HW4NoteKeeper.Validators
 {
+    /// <summary>
+    /// Validator for attachments.
+    /// </summary>
     public class AttachmentValidator : IAttachmentValidator
     {
         private readonly TelemetryClient _telemetry;
@@ -42,6 +45,12 @@ namespace HW4NoteKeeper.Validators
             };
         }
 
+        /// <summary>
+        /// Validate the ids of the attachment.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <param name="attachmentId">attachment id</param>
+        /// <returns>List of errors</returns>
         private static List<string> ValidateDtoIds(Guid? noteId, string attachmentId)
         {
             List<string> errors = new List<string>();

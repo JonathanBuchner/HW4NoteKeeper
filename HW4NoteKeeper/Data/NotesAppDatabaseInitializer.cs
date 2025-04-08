@@ -3,6 +3,8 @@ using System.Net.NetworkInformation;
 using HW4NoteKeeper.Infrastructure.Services;
 using HW4NoteKeeper.Interfaces;
 using HW4NoteKeeper.Models;
+using Microsoft.AspNetCore.StaticAssets;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace HW4NoteKeeper.Data
 {
@@ -25,7 +27,22 @@ namespace HW4NoteKeeper.Data
             }
 
             // Create default notes
-            var inializedData = new List<(Note note, List<string> attachments)>()
+            var data = GetDefaultNotes();
+
+            // Generate tags and add to dbcontext for each note.
+            await AddNotesToDatabase(context, aiClient, data);
+
+            // Add attachments to the notes
+            await AddAttachmentToDatabase(azStorage, data);
+        }
+
+        /// <summary>
+        /// Get default notes for the application.  This method is used to create default notes and tags for the notes.
+        /// </summary>
+        /// <returns>List of notes and file names to upload to blob storage</returns>
+        private static List<(Note note, List<string> attachments)> GetDefaultNotes()
+        {
+            return new List<(Note note, List<string> attachments)>()
             {
                 (
                     new Note() { NoteId = Guid.NewGuid(), Summary = "Running grocery list", Details = "Milk Eggs Oranges", CreatedDateUtc = DateTimeOffset.Now, ModifiedDateUtc = null, Tags = new List<Tag>() },
@@ -44,9 +61,18 @@ namespace HW4NoteKeeper.Data
                     new List<string>() { "AzureLogo.png", "AzureTipsAndTricks.pdf", }
                 ),
             };
+        }
 
-           // Generate tags and add to dbcontext for each note.
-            foreach (var tuple in inializedData)
+        /// <summary>
+        /// Add notes to the database.  This method is used to add notes to the database and generate tags for the notes.
+        /// </summary>
+        /// <param name="context">databse context</param>
+        /// <param name="aiClient">ai client</param>
+        /// <param name="intializedData">List of notes to add</param>
+        /// <returns>Task</returns>
+        private static async Task AddNotesToDatabase(NotesAppDatabaseContext context, MyOpenAiClient aiClient, List<(Note note, List<string> attachments)> intializedData)
+        {
+            foreach (var tuple in intializedData)
             {
                 // Get tag list.  Tags are reduce to length of 30 characters when collection is returned.
                 var tags = await aiClient.RequestCollection(tuple.note.Details, 30);
@@ -74,9 +100,17 @@ namespace HW4NoteKeeper.Data
             }
 
             await context.SaveChangesAsync();
+        }
 
-            // Add attachments to the notes
-            foreach (var tuple in inializedData)
+        /// <summary>
+        /// Add attachments to the database.  This method is used to add attachments to the database and upload them to Azure storage.
+        /// </summary>
+        /// <param name="azStorage"></param>
+        /// <param name="intializedData"></param>
+        /// <returns></returns>
+        private static async Task AddAttachmentToDatabase(IAzureStorageDataAccessLayer azStorage, List<(Note note, List<string> attachments)> intializedData)
+        {
+            foreach (var tuple in intializedData)
             {
                 foreach (var attachment in tuple.attachments)
                 {
@@ -86,7 +120,7 @@ namespace HW4NoteKeeper.Data
 
                     // Get file
                     await using var stream = new FileStream(absolutePath, FileMode.Open, FileAccess.Read);
-                    
+
                     var formFile = new FormFile(stream, 0, stream.Length, "file", Path.GetFileName(absolutePath))
                     {
                         Headers = new HeaderDictionary(),
@@ -98,7 +132,7 @@ namespace HW4NoteKeeper.Data
                     {
                         NoteId = tuple.note.NoteId,
                         AttachmentId = attachment,
-                        FileData = formFile, 
+                        FileData = formFile,
                     };
 
                     // Upload the attachment to Azure storage
