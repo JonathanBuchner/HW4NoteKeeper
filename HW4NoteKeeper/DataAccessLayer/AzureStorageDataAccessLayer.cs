@@ -45,7 +45,7 @@ namespace HW4NoteKeeper.DataAccessLayer
             var blobClient = containerClient.GetBlobClient(attachmentId);
 
             // Return null if blob client does not exist
-            if (!await blobClient.ExistsAsync())
+            if (!await CheckIfBlobExists(noteId, attachmentId))
             {
                 return null;
             }
@@ -204,6 +204,25 @@ namespace HW4NoteKeeper.DataAccessLayer
         public int GetMaxAttachments()
         {
             return _settings.MaxAttachments;
+        }
+
+        /// <summary>
+        /// Check if a blob exists in the container.  This method will return true if the blob exists, false if it does not exist.
+        /// </summary>
+        /// <param name="noteId">noteId</param>
+        /// <param name="blobId">blobId</param>
+        /// <returns>returns true if blob exists</returns>
+        public async Task<bool> CheckIfBlobExists(Guid noteId, string blobId)
+        {
+            var containerClient = await GetContainer(noteId.ToString());
+            var blobClient = containerClient.GetBlobClient(blobId);
+
+            if (await blobClient.ExistsAsync())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

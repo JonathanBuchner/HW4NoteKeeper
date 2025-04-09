@@ -73,6 +73,15 @@ namespace HW4NoteKeeper.Infrastructure.Middleware
                             return true;
                         }
                     }
+
+                    // AttachmentZip controller
+                    if (routeData.Values["controller"].ToString().ToLower() == "attachmentzip")
+                    {
+                        if (!routeData?.Values.ContainsKey("noteId") ?? true)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 

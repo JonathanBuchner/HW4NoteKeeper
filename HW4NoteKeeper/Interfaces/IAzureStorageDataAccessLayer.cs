@@ -58,5 +58,13 @@ namespace HW4NoteKeeper.Interfaces
         /// </summary>
         /// <returns></returns>
         int GetMaxAttachments();
+
+        /// <summary>
+        /// Check if a blob exists in the storage.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <param name="blobId">blob id</param>
+        /// <returns>returns true if blob exists</returns>
+        Task<bool> CheckIfBlobExists(Guid noteId, string blobId);
     }
 }

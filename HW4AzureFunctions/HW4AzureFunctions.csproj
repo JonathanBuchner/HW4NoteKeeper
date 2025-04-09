@@ -17,6 +17,9 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0-preview2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HW4NoteKeeper\HW4NoteKeeper.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

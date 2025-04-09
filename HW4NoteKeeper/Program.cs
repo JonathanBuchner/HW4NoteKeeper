@@ -22,6 +22,7 @@ namespace HW4NoteKeeper
             RegistererEntityFramework.AddEntityFramework(builder);
             RegistererMyOpenAiClient.AddOpenAiClient(builder);              // Must be placed after AI settings have been registered.
             RegistererBlobStorageService.AddBlobStorageService(builder);
+            RegistererZipRequestQueueService.AddZipQueueService(builder);
 
             // Development only
             if (builder.Environment.IsDevelopment())
