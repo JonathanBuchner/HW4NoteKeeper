@@ -11,12 +11,21 @@ using System.Net.Mail;
 
 namespace HW4NoteKeeper.Controllers
 {
+    /// <summary>
+    /// Controller for managing zip files of attachments.
+    /// </summary>
     [ApiController]
     [Route("notes/{noteId}/attachmentzipfiles")]
     public class AttachmentZipController : BaseController
     {
+        /// <summary>
+        /// The service for managing zip requests.
+        /// </summary>
         private readonly IZipRequestQueueService _zipRequest;
 
+        /// <summary>
+        /// The application logger for logging zip request messages.
+        /// </summary>
         private readonly IApplicationLogger<ZipQueueMessage> _al;
 
         public AttachmentZipController(
@@ -33,6 +42,86 @@ namespace HW4NoteKeeper.Controllers
             _al = new ApplicationLogger<ZipQueueMessage>(telemetryClient, logger);
         }
 
+        /// <summary>
+        /// Gets a zip file of attachments for a note.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <param name="zipFileName">zip file name</param>
+        /// <returns>FileStreamOfZip</returns>
+        [HttpGet("{zipFileName}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileStreamResult))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetZip(Guid noteId, string zipFileName)
+        {
+            try
+            {
+                // Added requirement.  Check if zip file name is valid.
+                if (string.IsNullOrEmpty(zipFileName))
+                {
+                    return BadRequestCustomResponse(_al, "Invalid zip file name", "Zip file name cannot be null or empty.", new ZipQueueMessage() { NoteId = noteId, ZipFileId = zipFileName });
+                }
+
+                // Check if the note and attachment exist
+                var note = await _noteRepository.GetNote(noteId);
+                
+                if (note == null)
+                {
+                    return CannotFindNoteNotFoundResponse(noteId);
+                }
+
+                if (!await _azureStorageDataAccessLayer.CheckIfBlobExists(noteId, zipFileName))
+                {
+                    return CannotFindAttachementResponse(noteId, zipFileName);
+                }
+
+                var response = await _azureStorageDataAccessLayer.GetAttachment(noteId, zipFileName);
+                
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerErrorExceptionCustomResponse(_al, new ZipQueueMessage() { NoteId = noteId, ZipFileId = zipFileName }, ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets all zip files of attachments for a note.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <returns>Detials of attchment details.</returns>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<DtoZipAttachmentDetails>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetZipFiles(Guid noteId)
+        {
+            try
+            {
+                // Check if the note exists
+                var note = await _noteRepository.GetNote(noteId);
+                
+                if (note == null)
+                {
+                    return CannotFindNoteNotFoundResponse(noteId);
+                }
+
+                var attachmentDetails = await _azureStorageDataAccessLayer.GetNoteAttachmentDetails(noteId);
+
+                return Ok(attachmentDetails);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerErrorExceptionCustomResponse(_al, new ZipQueueMessage() { NoteId = noteId }, ex);
+            }
+        }
+
+        /// <summary>
+        /// Creates a zip file of attachments for a note by queing a message.
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,7 +176,7 @@ namespace HW4NoteKeeper.Controllers
                     return BadRequestCustomResponse(_al, "Invalid zip file name", "Zip file name cannot be null or empty.", new ZipQueueMessage() { NoteId = noteId, ZipFileId = zipFileName });
                 }
 
-                // Check if attachemt exists
+                // Check if attachment exists
                 if (!await _azureStorageDataAccessLayer.CheckIfBlobExists(noteId, zipFileName))
                 {
                     return CannotFindAttachementResponse(noteId, zipFileName);
@@ -142,8 +231,8 @@ namespace HW4NoteKeeper.Controllers
 
         private IActionResult CannotFindAttachementResponse(Guid noteId, string attachmentId)
         {
-            var title = "Attachment not found";
-            var message = $"Attachment with id {attachmentId} not found. Cannot complete request.";
+            var title = "Zip attachment not found";
+            var message = $"Zip attachment with id {attachmentId} not found. Cannot complete request.";
 
             return NotFoundCustomResponse(_al, title, message, new ZipQueueMessage() { NoteId = noteId });
         }
