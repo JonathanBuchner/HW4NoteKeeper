@@ -13,12 +13,12 @@ namespace HW4AzureFunctions
         private readonly ILogger<FunctionAttachmentZipper> _logger;
 
         private const string QueueName = "attachment-zip-requests";
-        private readonly IMessageProcessor messageHander;
+        private readonly IMessageProcessor messageHandler;
 
         public FunctionAttachmentZipper(ILogger<FunctionAttachmentZipper> logger, IMessageProcessor messageProcessor)
         {
             _logger = logger;
-            messageHander = messageProcessor;
+            messageHandler = messageProcessor;
         }
 
         /// <summary>
@@ -43,6 +43,18 @@ namespace HW4AzureFunctions
                 ZipQueueMessage? zipQueueMessage = JsonConvert.DeserializeObject<ZipQueueMessage>(queueMessage);
 
                 message = ValidateQueueMessage(zipQueueMessage);
+
+                try
+                {
+                    // Process the message
+                    await messageHandler.Process(message);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred while processing the message.");
+
+                    throw;
+                }
             }
             catch (ArgumentNullException argEx)
             {
@@ -55,28 +67,12 @@ namespace HW4AzureFunctions
             catch (JsonException jsonEx)
             {
                 _logger.LogError(jsonEx, "Failed to deserialize the queue message.");
-                
+
                 throw;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while processing the queue message.");
-                
-                throw;
-            }
-
-            try
-            {
-                if (message == null)
-                {
-                    throw new ArgumentNullException(nameof(message), "Queue message cannot be null.");
-                }
-
-                await messageHander.Process(message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing the message.");
 
                 throw;
             }
