@@ -1,6 +1,6 @@
-﻿using HW4NoteKeeper.Infrastructure.Settings;
+﻿using HW4NoteKeeperEx2.Infrastructure.Settings;
 
-namespace HW4NoteKeeper.Validators
+namespace HW4NoteKeeperEx2.Validators
 {
     /// <summary>
     /// Validator for Entity Framework service.

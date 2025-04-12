@@ -1,10 +1,10 @@
-﻿using HW4NoteKeeper.Infrastructure.Settings;
+﻿using HW4NoteKeeperEx2.Infrastructure.Settings;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.Extensibility.PerfCounterCollector.QuickPulse;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Adds application insights to project

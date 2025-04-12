@@ -1,8 +1,8 @@
-﻿using HW4NoteKeeper.Models;
+﻿using HW4NoteKeeperEx2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HW4NoteKeeper.Data
+namespace HW4NoteKeeperEx2.Data
 {
     /// <summary>
     /// Database context for the application.

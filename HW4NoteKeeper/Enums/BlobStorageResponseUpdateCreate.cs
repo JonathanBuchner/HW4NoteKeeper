@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Enums
+﻿namespace HW4NoteKeeperEx2.Enums
 {
     /// <summary>
     /// Enum for the response of the PutAttachment method in the AzureStorageDataAccessLayer.

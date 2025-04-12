@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Class representing the details of a zip attachment attached to a note

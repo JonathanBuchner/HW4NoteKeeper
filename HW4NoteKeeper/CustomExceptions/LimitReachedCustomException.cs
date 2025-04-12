@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.CustomExceptions
+﻿namespace HW4NoteKeeperEx2.CustomExceptions
 {
     /// <summary>
     /// Exception thrown when a limit is reached.

@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Infrastructure.Settings
+﻿namespace HW4NoteKeeperEx2.Infrastructure.Settings
 {
     /// <summary>
     /// Settings for the note-taking application

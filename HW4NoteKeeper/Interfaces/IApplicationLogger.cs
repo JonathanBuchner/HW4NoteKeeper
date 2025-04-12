@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Interfaces
+﻿namespace HW4NoteKeeperEx2.Interfaces
 {
     /// <summary>
     /// Interface for application insights exception tracker.

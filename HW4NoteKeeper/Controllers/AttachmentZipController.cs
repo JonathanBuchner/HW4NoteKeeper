@@ -1,15 +1,16 @@
-﻿using HW4NoteKeeper.ApplicationInsightsTrackers;
-using HW4NoteKeeper.Data;
-using HW4NoteKeeper.Enums;
-using HW4NoteKeeper.Infrastructure.Services;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
+﻿using HW4NoteKeeperEx2.ApplicationInsightsTrackers;
+using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.Enums;
+using HW4NoteKeeperEx2.Infrastructure.Services;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Net.Mail;
 
-namespace HW4NoteKeeper.Controllers
+namespace HW4NoteKeeperEx2.Controllers
 {
 
     /// <summary>
@@ -30,6 +31,11 @@ namespace HW4NoteKeeper.Controllers
         /// </summary>
         private readonly IApplicationLogger<ZipQueueMessage> _al;
 
+        /// <summary>
+        /// The settings for the zip request queue service.
+        /// </summary>
+        private readonly ZipRequestQueueServiceSettings _queueSettings;
+
         public AttachmentZipController(
             MyOpenAiClient aiClient,
             TelemetryClient telemetryClient,
@@ -37,11 +43,13 @@ namespace HW4NoteKeeper.Controllers
             NoteSettings efSettings,
             ILogger<AttachmentsController> logger,
             IAzureStorageDataAccessLayer azureStorageDataAccessLayer,
-            IZipRequestQueueService zipRequest)
+            IZipRequestQueueService zipRequest,
+            IOptions<ZipRequestQueueServiceSettings> queueSettings)
             : base(aiClient, telemetryClient, dbContext, efSettings, azureStorageDataAccessLayer)
         {
             _zipRequest = zipRequest;
             _al = new ApplicationLogger<ZipQueueMessage>(telemetryClient, logger);
+            _queueSettings = queueSettings.Value;
         }
 
         /// <summary>
@@ -132,13 +140,14 @@ namespace HW4NoteKeeper.Controllers
         /// Creates a zip file of attachments for a note by queing a message.
         /// </summary>
         /// <param name="noteId"></param>
+        /// <param name="useAzureWebJob">Optional query parameter indicating whether to use the WebJob queue</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateZip(Guid noteId)
+        public async Task<IActionResult> CreateZip(Guid noteId, [FromQuery] bool useAzureWebJob = false)
         {
             var zipFileName = $"{Guid.NewGuid()}.zip";
 
@@ -159,7 +168,11 @@ namespace HW4NoteKeeper.Controllers
                     return NoContent();
                 }
 
-                await _zipRequest.EnqueueAsync(noteId, zipFileName);
+                var queueName = useAzureWebJob
+                    ? _queueSettings.QueueNameWebJob
+                    : _queueSettings.QueueNameFunction;
+
+                await _zipRequest.EnqueueAsync(noteId, zipFileName, queueName);
 
 
                 Response.Headers.Location = $"{Request.Scheme}://{Request.Host}/notes/{noteId}/attachmentzipfiles/{zipFileName}";

@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Identity;
-using HW4NoteKeeper.Data;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Validators;
+using HW4NoteKeeper;
+using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Handle stting up and and initializing db for entity framework

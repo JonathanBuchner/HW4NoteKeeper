@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// A note that can be created, updated, and deleted.  Tags are generated from details and the tagging ai service as of 2/13.

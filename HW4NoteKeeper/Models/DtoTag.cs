@@ -2,7 +2,7 @@
 using NJsonSchema.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Data transfer object for a tag. As of 2/25 (JB), user only sees the name of the tag as compared to the full tag object.

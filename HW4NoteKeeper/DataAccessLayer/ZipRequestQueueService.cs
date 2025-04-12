@@ -1,11 +1,11 @@
 ﻿using Azure.Storage.Queues;
 using System.Text.Json;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
 using System.Threading.Tasks;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.Models;
 
-namespace HW4NoteKeeper.DataAccessLayer
+namespace HW4NoteKeeperEx2.DataAccessLayer
 {
     /// <summary>
     /// Service for managing zip request queues.
@@ -15,12 +15,20 @@ namespace HW4NoteKeeper.DataAccessLayer
         /// <summary>
         /// The Azure Storage Queue client.
         /// </summary>
-        private readonly QueueClient _queueClient;
+        private readonly QueueClient _queueClientFunction;
+
+        /// <summary>
+        /// The Azure Storage Queue client.
+        /// </summary>
+        private readonly QueueClient _queueClientWebJob;
 
         public ZipRequestQueueService(ZipRequestQueueServiceSettings settings)
         {
-            _queueClient = new QueueClient(settings.ConnectionString, settings.QueueName);
-            _queueClient.CreateIfNotExists();
+            _queueClientFunction = new QueueClient(settings.ConnectionString, settings.QueueNameFunction);
+            _queueClientFunction.CreateIfNotExists();
+
+            _queueClientWebJob = new QueueClient(settings.ConnectionString, settings.QueueNameWebJob);
+            _queueClientFunction.CreateIfNotExists();
         }
 
         /// <summary>
@@ -29,7 +37,7 @@ namespace HW4NoteKeeper.DataAccessLayer
         /// <param name="noteId">note id</param>
         /// <param name="zipFileName">zip file name</param>
         /// <returns>Task</returns>
-        public async Task EnqueueAsync(Guid noteId, string zipFileName)
+        public async Task EnqueueAsync(Guid noteId, string zipFileName, string queueName)
         {
             var message = new ZipQueueMessage
             {
@@ -39,7 +47,15 @@ namespace HW4NoteKeeper.DataAccessLayer
 
             var messageBody = JsonSerializer.Serialize(message);
 
-            await _queueClient.SendMessageAsync(messageBody);
+
+            if (queueName == _queueClientWebJob.Name)
+            {
+                await _queueClientWebJob.SendMessageAsync(messageBody);
+            }
+            else
+            {
+                await _queueClientFunction.SendMessageAsync(messageBody);
+            }
         }
     }
 }

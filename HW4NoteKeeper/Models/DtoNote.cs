@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.Xml;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Data transfer object for a note. As of 2/25 (JB), user only sees tag names.  Key difference compared to Note is list strings rather than list of  tags.

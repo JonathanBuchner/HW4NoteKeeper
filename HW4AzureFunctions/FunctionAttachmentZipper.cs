@@ -4,14 +4,14 @@
 
 /*
 using Azure.Storage.Blobs;
-using HW4AzureFunctions.Interfaces;
-using HW4AzureFunctions.MessageProcessors;
+using HW4AzureFunctionsEx2.Interfaces;
+using HW4AzureFunctionsEx2.MessageProcessors;
 using HW4NoteKeeper.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace HW4AzureFunctions
+namespace HW4AzureFunctionsEx2
 {
     public class FunctionAttachmentZipper
     {

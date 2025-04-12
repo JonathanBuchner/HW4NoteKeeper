@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HW4AzureFunctions.Telemetry
+namespace HW4AzureFunctionsEx2.Telemetry
 {
     /// <summary>
     /// Interface for telemetry logging.

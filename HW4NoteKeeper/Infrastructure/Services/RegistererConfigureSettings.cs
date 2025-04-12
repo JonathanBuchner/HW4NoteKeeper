@@ -1,7 +1,8 @@
-﻿using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Tools.Validators;
+﻿using HW4NoteKeeper;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Tools.Validators;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Configures the settings for the application.

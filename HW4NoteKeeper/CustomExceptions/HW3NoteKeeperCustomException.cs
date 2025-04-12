@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.CustomExceptions
+﻿namespace HW4NoteKeeperEx2.CustomExceptions
 {
     /// <summary>
     /// Custom exception for the HW4NoteKeeper application.  All other exceptions inherit from this exception.

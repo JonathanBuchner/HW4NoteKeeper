@@ -2,15 +2,15 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
-using HW4NoteKeeper.ApplicationInsightsTrackers;
-using HW4NoteKeeper.Enums;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
-using HW4NoteKeeper.Validators;
+using HW4NoteKeeperEx2.ApplicationInsightsTrackers;
+using HW4NoteKeeperEx2.Enums;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
+using HW4NoteKeeperEx2.Validators;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HW4NoteKeeper.DataAccessLayer
+namespace HW4NoteKeeperEx2.DataAccessLayer
 {
     /// <summary>
     /// Azure Storage Data Access Layer.  This class is used to access the Azure Storage Blob service and perform CRUD operations on blobs.

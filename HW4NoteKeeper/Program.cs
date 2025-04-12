@@ -1,6 +1,6 @@
 
-using HW4NoteKeeper.Infrastructure.Middleware;
-using HW4NoteKeeper.Infrastructure.Services;
+using HW4NoteKeeperEx2.Infrastructure.Middleware;
+using HW4NoteKeeperEx2.Infrastructure.Services;
 
 namespace HW4NoteKeeper
 {

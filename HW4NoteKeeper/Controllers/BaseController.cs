@@ -1,13 +1,13 @@
-﻿using HW4NoteKeeper.Dal;
-using HW4NoteKeeper.Data;
-using HW4NoteKeeper.DataAccessLayer;
-using HW4NoteKeeper.Infrastructure.Services;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
+﻿using HW4NoteKeeperEx2.Dal;
+using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.DataAccessLayer;
+using HW4NoteKeeperEx2.Infrastructure.Services;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HW4NoteKeeper.Controllers
+namespace HW4NoteKeeperEx2.Controllers
 {
     /// <summary>
     /// Base controller for the application.
@@ -255,7 +255,6 @@ namespace HW4NoteKeeper.Controllers
         /// <param name="tracker">Aplication insights tracker</param>
         /// <param name="title">Title for problem details</param>
         /// <param name="details">Details for problem details</param>
-        /// <param name="payload">Optional Object that caused error</param>
         /// <param name="additionalData">Optional additional data</param>
         /// <returns>Object for the response that includes status code and problem details</returns>
         protected ObjectResult NotFoundCustomResponse<T>(IApplicationLogger<T> tracker, string title, string details, Dictionary<string, object>? additionalData = null)

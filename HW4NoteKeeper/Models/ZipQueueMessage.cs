@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Represents a message in the zip request queue.
@@ -15,11 +15,11 @@ namespace HW4NoteKeeper.Models
         [JsonProperty("noteId")]
         public Guid NoteId { get; set; } = Guid.Empty;
 
-        [JsonSchemaType(typeof(string))]
-        [JsonProperty("zipFileId")]
         /// <summary>
         /// The name of the zip file to be created.
         /// </summary>
+        [JsonSchemaType(typeof(string))]
+        [JsonProperty("zipFileId")]
         public string ZipFileId { get; set; } = String.Empty;
     }
 }

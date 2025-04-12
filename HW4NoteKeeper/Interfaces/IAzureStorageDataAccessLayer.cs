@@ -1,8 +1,8 @@
-﻿using HW4NoteKeeper.Enums;
-using HW4NoteKeeper.Models;
+﻿using HW4NoteKeeperEx2.Enums;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HW4NoteKeeper.Interfaces
+namespace HW4NoteKeeperEx2.Interfaces
 {
     /// <summary>
     /// Interface for Azure Storage Data Access Layer.
@@ -56,7 +56,7 @@ namespace HW4NoteKeeper.Interfaces
         /// <summary>
         /// Upload an attachment to Azure storage.
         /// </summary>
-        /// <param name="attachment">attachment</param>
+        /// <param name="dtoAttachment">attachment</param>
         /// <returns>Blob storage message</returns>
         Task<BlobStorageResponseUpdateCreate> PutAttachment(DtoAttachment dtoAttachment);
 

@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using Azure;
 using Azure.AI.OpenAI;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.Extensions.AI;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// A class to interact with the OpenAI API on Azure

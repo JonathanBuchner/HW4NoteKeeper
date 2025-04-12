@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Infrastructure.Settings
+﻿namespace HW4NoteKeeperEx2.Infrastructure.Settings
 {
     /// <summary>
     /// Settings for the ZipRequestService.
@@ -13,6 +13,11 @@
         /// <summary>
         /// The name of the Azure Storage Queue.
         /// </summary>
-        public string QueueName { get; set; } = String.Empty;
+        public string QueueNameFunction { get; set; } = String.Empty;
+
+        /// <summary>
+        /// The name of the WebJob queueue.
+        /// </summary>
+        public string QueueNameWebJob { get; set; } = String.Empty;
     }
 }

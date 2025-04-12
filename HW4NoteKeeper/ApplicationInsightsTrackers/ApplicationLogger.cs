@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using HW4NoteKeeper.Interfaces;
+using HW4NoteKeeperEx2.Interfaces;
 using Microsoft.ApplicationInsights;
 using Newtonsoft.Json;
 
-namespace HW4NoteKeeper.ApplicationInsightsTrackers
+namespace HW4NoteKeeperEx2.ApplicationInsightsTrackers
 {
     /// <summary>
     /// Application insights exception tracker.

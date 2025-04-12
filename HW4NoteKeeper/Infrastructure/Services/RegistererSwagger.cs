@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Register Swagger for the application. Make sure both methods are included on program.cs file for intended swagger use.

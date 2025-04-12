@@ -1,10 +1,10 @@
-﻿using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
+﻿using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Metrics;
 using Microsoft.IdentityModel.Abstractions;
 
-namespace HW4NoteKeeper.MetricTrackers
+namespace HW4NoteKeeperEx2.MetricTrackers
 {
     /// <summary>
     /// Metric tracker for notes controller.

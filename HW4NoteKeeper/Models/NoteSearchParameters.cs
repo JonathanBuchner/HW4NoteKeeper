@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Models
+﻿namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Search parameters for notes. As of 2/25 (JB), only tag name is used for refining search.

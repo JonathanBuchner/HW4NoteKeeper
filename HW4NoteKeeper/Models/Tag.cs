@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Represents a tag that can be associated with a note. As of 2/25 (JB), tags are generated using AI from the details of the note.

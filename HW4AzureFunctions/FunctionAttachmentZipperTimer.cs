@@ -1,13 +1,13 @@
 ﻿using Azure.Storage.Queues;
-using HW4AzureFunctions.Interfaces;
-using HW4AzureFunctions.Models;
-using HW4AzureFunctions.Telemetry;
+using HW4AzureFunctionsEx2.Interfaces;
+using HW4AzureFunctionsEx2.Models;
+using HW4AzureFunctionsEx2.Telemetry;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace HW4AzureFunctions
+namespace HW4AzureFunctionsEx2
 {
     /// <summary>
     /// Function that zips attachments for notes.  This function is triggered by a timer and checks the queue for messages to process.
@@ -92,7 +92,7 @@ namespace HW4AzureFunctions
         /// </summary>
         /// <param name="config">config</param>
         /// <returns>Queue client</returns>
-        private QueueClient SetQueueClient(IConfiguration config)
+        private static QueueClient SetQueueClient(IConfiguration config)
         {
             var connectionString = config["AzureWebJobsStorage"];
             var queueClient = new QueueClient(connectionString, QueueName);

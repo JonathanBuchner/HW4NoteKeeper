@@ -4,13 +4,13 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Azure.Storage.Blobs;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HW4NoteKeeper.Validators
+namespace HW4NoteKeeperEx2.Validators
 {
     /// <summary>
     /// Validator for attachments.
@@ -62,7 +62,7 @@ namespace HW4NoteKeeper.Validators
                 errors.Add("NoteId is required.");
             }
 
-            /// Blob name validation
+            // Blob name validation
             if (string.IsNullOrWhiteSpace(attachmentId))
             {
                 errors.Add("Blob name cannot be null, empty, or whitespace.");

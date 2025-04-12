@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "HW4AzureFunctions": {
+    "HW4AzureFunctionsEx2": {
       "commandName": "Project",
       "commandLineArgs": "--port 7223",
       "launchBrowser": false

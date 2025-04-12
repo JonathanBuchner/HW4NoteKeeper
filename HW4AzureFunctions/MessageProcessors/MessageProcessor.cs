@@ -1,12 +1,12 @@
 ﻿using Azure.Storage.Blobs;
-using HW4AzureFunctions.Interfaces;
-using HW4AzureFunctions.Models;
+using HW4AzureFunctionsEx2.Interfaces;
+using HW4AzureFunctionsEx2.Models;
 using Microsoft.Extensions.Logging;
 using System.IO.Compression;
-using HW4AzureFunctions.Telemetry;
+using HW4AzureFunctionsEx2.Telemetry;
 using Azure.Storage.Blobs.Models;
 
-namespace HW4AzureFunctions.MessageProcessors
+namespace HW4AzureFunctionsEx2.MessageProcessors
 {
     /// <summary>
     /// Class for processing messages from the zip request queue.

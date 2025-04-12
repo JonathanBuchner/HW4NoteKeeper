@@ -1,9 +1,9 @@
-﻿using HW4NoteKeeper.DataAccessLayer;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
+﻿using HW4NoteKeeperEx2.DataAccessLayer;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
 using Microsoft.Extensions.Options;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Register blob storage service

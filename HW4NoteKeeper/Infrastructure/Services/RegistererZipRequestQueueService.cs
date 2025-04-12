@@ -1,9 +1,9 @@
-﻿using HW4NoteKeeper.DataAccessLayer;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
+﻿using HW4NoteKeeperEx2.DataAccessLayer;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
 using Microsoft.Extensions.Options;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Service for registering the ZipRequestQueueService.
@@ -39,9 +39,14 @@ namespace HW4NoteKeeper.Infrastructure.Services
                 throw new ArgumentException("Connection string is required.");
             }
 
-            if (string.IsNullOrEmpty(settings.QueueName))
+            if (string.IsNullOrEmpty(settings.QueueNameFunction))
             {
-                throw new ArgumentException("Queue name is required.");
+                throw new ArgumentException("Queue name for function is required.");
+            }
+
+            if (string.IsNullOrEmpty(settings.QueueNameWebJob))
+            {
+                throw new ArgumentException("Queue name for webjob is required.");
             }
         }
 

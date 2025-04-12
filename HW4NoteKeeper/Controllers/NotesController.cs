@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using HW4NoteKeeper.Models;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Tools.Validators;
+using HW4NoteKeeperEx2.Models;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Tools.Validators;
 using Microsoft.ApplicationInsights;
-using HW4NoteKeeper.ApplicationInsightsTrackers;
-using HW4NoteKeeper.Data;
-using HW4NoteKeeper.CustomExceptions;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Infrastructure.Services;
-using HW4NoteKeeper.DataAccessLayer;
+using HW4NoteKeeperEx2.ApplicationInsightsTrackers;
+using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.CustomExceptions;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Infrastructure.Services;
+using HW4NoteKeeperEx2.DataAccessLayer;
 using System.Diagnostics;
 
-namespace HW4NoteKeeper.Controllers
+namespace HW4NoteKeeperEx2.Controllers
 {
     /// <summary>
     /// Controller for handling notes.  Follows rest conventions.

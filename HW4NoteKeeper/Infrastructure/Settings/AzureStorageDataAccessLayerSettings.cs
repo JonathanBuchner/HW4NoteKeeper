@@ -1,4 +1,4 @@
-﻿namespace HW4NoteKeeper.Infrastructure.Settings
+﻿namespace HW4NoteKeeperEx2.Infrastructure.Settings
 {
     /// <summary>
     /// Blob settings. Used when instantiating a blob client.

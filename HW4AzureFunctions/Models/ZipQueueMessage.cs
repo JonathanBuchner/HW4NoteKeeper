@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 
-namespace HW4AzureFunctions.Models
+namespace HW4AzureFunctionsEx2.Models
 {
     /// <summary>
     /// Represents a message in the zip request queue.

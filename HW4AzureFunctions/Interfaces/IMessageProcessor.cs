@@ -1,11 +1,11 @@
-﻿using HW4AzureFunctions.Models;
+﻿using HW4AzureFunctionsEx2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HW4AzureFunctions.Interfaces
+namespace HW4AzureFunctionsEx2.Interfaces
 {
     /// <summary>
     /// Interface for processing messages from the zip request queue.

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.NetworkInformation;
-using HW4NoteKeeper.Infrastructure.Services;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.Infrastructure.Services;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.AspNetCore.StaticAssets;
 using Microsoft.Identity.Client.Extensions.Msal;
 
-namespace HW4NoteKeeper.Data
+namespace HW4NoteKeeperEx2.Data
 {
     /// <summary>
     /// Database initializer for the application.  This class is used to initialize the database with default data and is a solution that does include using migratins
@@ -16,8 +16,9 @@ namespace HW4NoteKeeper.Data
         /// <summary>
         /// Initialize the database with default data.  This method is used to create default notes and tags for the notes.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="aiClient"></param>
+        /// <param name="context">web app context</param>
+        /// <param name="aiClient">ai client</param>
+        /// <param name="azStorage">storage</param>
         /// <returns></returns>
         public static async Task InitilizeDbAsync(NotesAppDatabaseContext context, MyOpenAiClient aiClient, IAzureStorageDataAccessLayer azStorage)
         {

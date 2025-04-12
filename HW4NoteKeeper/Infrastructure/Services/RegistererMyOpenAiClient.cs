@@ -2,9 +2,9 @@
 using Azure;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
-using HW4NoteKeeper.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// A static class to register the OpenAI client with the dependency injection container.

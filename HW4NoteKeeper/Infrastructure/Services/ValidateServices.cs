@@ -1,7 +1,7 @@
-﻿using HW4NoteKeeper.Data;
-using HW4NoteKeeper.Interfaces;
+﻿using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.Interfaces;
 
-namespace HW4NoteKeeper.Infrastructure.Services
+namespace HW4NoteKeeperEx2.Infrastructure.Services
 {
     /// <summary>
     /// Validate services in the application

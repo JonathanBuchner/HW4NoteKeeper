@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.ApplicationInsights;
 
-namespace HW4NoteKeeper.Tools.Validators
+namespace HW4NoteKeeperEx2.Tools.Validators
 {
     /// <summary>
     /// Validates a note. Summary and details must be valid input, see ValidateDetails and ValidateSummary.

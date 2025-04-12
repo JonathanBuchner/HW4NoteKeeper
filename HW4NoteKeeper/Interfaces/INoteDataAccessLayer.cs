@@ -1,7 +1,7 @@
-﻿using HW4NoteKeeper.MetricTrackers;
-using HW4NoteKeeper.Models;
+﻿using HW4NoteKeeperEx2.MetricTrackers;
+using HW4NoteKeeperEx2.Models;
 
-namespace HW4NoteKeeper.Interfaces
+namespace HW4NoteKeeperEx2.Interfaces
 {
     /// <summary>
     /// Interface for the Note Data Access Layer.

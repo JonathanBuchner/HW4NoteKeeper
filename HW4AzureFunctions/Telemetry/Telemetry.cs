@@ -1,4 +1,4 @@
-﻿using HW4AzureFunctions.MessageProcessors;
+﻿using HW4AzureFunctionsEx2.MessageProcessors;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HW4AzureFunctions.Telemetry
+namespace HW4AzureFunctionsEx2.Telemetry
 {
     /// <summary>
     /// Telemetry logging class.

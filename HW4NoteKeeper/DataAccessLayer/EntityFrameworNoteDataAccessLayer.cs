@@ -1,15 +1,15 @@
 ﻿using System.Diagnostics;
-using HW4NoteKeeper.CustomExceptions;
-using HW4NoteKeeper.Data;
-using HW4NoteKeeper.Infrastructure.Services;
-using HW4NoteKeeper.Infrastructure.Settings;
-using HW4NoteKeeper.Interfaces;
-using HW4NoteKeeper.MetricTrackers;
-using HW4NoteKeeper.Models;
+using HW4NoteKeeperEx2.CustomExceptions;
+using HW4NoteKeeperEx2.Data;
+using HW4NoteKeeperEx2.Infrastructure.Services;
+using HW4NoteKeeperEx2.Infrastructure.Settings;
+using HW4NoteKeeperEx2.Interfaces;
+using HW4NoteKeeperEx2.MetricTrackers;
+using HW4NoteKeeperEx2.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.EntityFrameworkCore;
 
-namespace HW4NoteKeeper.Dal
+namespace HW4NoteKeeperEx2.Dal
 {
     /// <summary>
     /// Data access layer for notes using Entity Framework.

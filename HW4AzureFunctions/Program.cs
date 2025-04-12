@@ -1,7 +1,7 @@
 using Azure.Storage.Blobs;
-using HW4AzureFunctions.Interfaces;
-using HW4AzureFunctions.MessageProcessors;
-using HW4AzureFunctions.Telemetry;
+using HW4AzureFunctionsEx2.Interfaces;
+using HW4AzureFunctionsEx2.MessageProcessors;
+using HW4AzureFunctionsEx2.Telemetry;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;

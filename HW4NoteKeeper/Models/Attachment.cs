@@ -1,8 +1,8 @@
-﻿using HW4NoteKeeper.Validators;
+﻿using HW4NoteKeeperEx2.Validators;
 using Newtonsoft.Json;
 using NJsonSchema.Annotations;
 
-namespace HW4NoteKeeper.Models
+namespace HW4NoteKeeperEx2.Models
 {
     /// <summary>
     /// Data transfer object for attachments.
