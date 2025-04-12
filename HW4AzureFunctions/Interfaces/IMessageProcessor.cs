@@ -1,4 +1,4 @@
-﻿using HW4NoteKeeper.Models;
+﻿using HW4AzureFunctions.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace HW4AzureFunctions.Interfaces
 {
+    /// <summary>
+    /// Interface for processing messages from the zip request queue.
+    /// </summary>
     public interface IMessageProcessor
     {
         /// <summary>

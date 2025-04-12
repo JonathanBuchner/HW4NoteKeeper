@@ -209,7 +209,12 @@ namespace HW4NoteKeeper.Controllers
                 // Delet blobs
                 try
                 {
+                    // Delete the attachment folder
                     await _azureStorageDataAccessLayer.DeleteAttachmentContainer(id);
+
+                    // Deleet the zip folder
+                    var isWithZipName = $"{id}-zip";
+                    await _azureStorageDataAccessLayer.DeleteAttachmentContainer(isWithZipName);
                 }
                 catch(Exception ex)
                 {

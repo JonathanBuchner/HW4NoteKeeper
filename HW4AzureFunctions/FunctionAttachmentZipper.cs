@@ -1,3 +1,8 @@
+/*
+ * I left this code in the file to contine to test a non-timer. 
+ */
+
+/*
 using Azure.Storage.Blobs;
 using HW4AzureFunctions.Interfaces;
 using HW4AzureFunctions.MessageProcessors;
@@ -29,7 +34,7 @@ namespace HW4AzureFunctions
         /// <param name="queueMessage"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        [Function("ZipAttachments")]
+        [Function("ZipAttachmentsNotTimer")]
         public async Task Run([QueueTrigger(QueueName, Connection = "AzureWebJobsStorage")] string queueMessage, FunctionContext context)
         {
             LogMessageReceived(queueMessage);
@@ -104,3 +109,4 @@ namespace HW4AzureFunctions
         }
     }
 }
+*/

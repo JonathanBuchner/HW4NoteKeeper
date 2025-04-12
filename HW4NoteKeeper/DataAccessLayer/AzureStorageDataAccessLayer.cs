@@ -41,7 +41,18 @@ namespace HW4NoteKeeper.DataAccessLayer
         /// <returns>file stream</returns>
         public async Task<FileStreamResult?> GetAttachment(Guid noteId, string attachmentId)
         {
-            var containerClient = await GetContainer(noteId.ToString());
+            return await GetAttachment(noteId.ToString(), attachmentId);
+        }
+
+        /// <summary>
+        /// Get an attachment from blob storage.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <param name="attachmentId">attachment id</param>
+        /// <returns>file stream</returns>
+        public async Task<FileStreamResult?> GetAttachment(String noteId, string attachmentId)
+        {
+            var containerClient = await GetContainer(noteId);
             var blobClient = containerClient.GetBlobClient(attachmentId);
 
             // Return null if blob client does not exist
@@ -50,11 +61,11 @@ namespace HW4NoteKeeper.DataAccessLayer
                 return null;
             }
 
-            var blobDownloadInfo = await blobClient.DownloadAsync();
-            var contentType = blobDownloadInfo.Value.ContentType;
-            var fileStream = blobDownloadInfo.Value.Content; 
+            var downloadInfo = await blobClient.DownloadAsync();
+            var stream = downloadInfo.Value.Content;
+            var contentType = downloadInfo.Value.ContentType;
 
-            return new FileStreamResult(fileStream, contentType)
+            return new FileStreamResult(stream, contentType)
             {
                 FileDownloadName = attachmentId
             };
@@ -101,6 +112,37 @@ namespace HW4NoteKeeper.DataAccessLayer
         }
 
         /// <summary>
+        /// Get zip attachment information for a note.
+        /// </summary>
+        /// <param name="noteId">note id</param>
+        /// <returns>DtoZipAttachmentDetails</returns>
+        public async Task<IEnumerable<DtoZipAttachmentDetails>> GetNoteZipAttachmentDetails(string noteId)
+        {
+            var containerClient = await GetContainer(noteId);
+            var attachmentDetailsList = new List<DtoZipAttachmentDetails>();
+
+            await foreach (var blobItem in containerClient.GetBlobsAsync(traits: BlobTraits.Metadata))
+            {
+                // Retrieve metadata 
+                var name = blobItem.Name;
+
+                var attachementDetails = new DtoZipAttachmentDetails()
+                {
+                    ZipFileId = name,
+                    ContentType = blobItem.Properties.ContentType ?? "application/zip",
+                    CreatedDate = blobItem.Properties.CreatedOn ?? DateTimeOffset.MinValue,
+                    LastModifiedDate = blobItem.Properties.LastModified ?? DateTimeOffset.MinValue,
+                    Length = blobItem.Properties.ContentLength ?? 0
+                };
+
+                attachmentDetailsList.Add(attachementDetails);
+            }
+
+            return attachmentDetailsList;
+        }
+
+
+        /// <summary>
         /// Put an attachment to blob storage.  This method will create a new blob if it does not exist, or update the existing blob if it does exist.
         /// </summary>
         /// <param name="attachment">Attachment</param>
@@ -135,6 +177,28 @@ namespace HW4NoteKeeper.DataAccessLayer
         }
 
         /// <summary>
+        /// Create a zip attachment to blob storage.  
+        /// 
+        /// NOTE: Not in use.
+        /// </summary>
+        /// <param name="attachment">attachment</param>
+        /// <returns>Blob storage response</returns>
+        public async Task<BlobStorageResponseUpdateCreate> CreateZipAttachment(Attachment attachment)
+        {
+            var containerClient = await GetContainer(attachment.NoteId.ToString());
+
+            BlobClient blobClient = containerClient.GetBlobClient(attachment.AttachmentId.ToString());
+
+            await UploadFile(blobClient, attachment.FileData);
+
+            // Set metadata for the blob
+            var metaData = GetMetaDataForZipUploadedBlob(blobClient, attachment);
+            await blobClient.SetMetadataAsync(metaData);
+
+            return BlobStorageResponseUpdateCreate.Created;
+        }
+
+        /// <summary>
         /// Put an attachment to blob storage.  This method will create a new blob if it does not exist, or update the existing blob if it does exist.
         /// </summary>
         /// <param name="dtoAttachment">attachment</param>
@@ -155,7 +219,19 @@ namespace HW4NoteKeeper.DataAccessLayer
         public async Task<BlobStorageResponseDelete> DeleteAttachment(Guid noteId, string attachmentId)
         {
 
-            var containerClient = await GetContainer(noteId.ToString());
+            return await DeleteAttachment(noteId.ToString(), attachmentId);
+        }
+
+        /// <summary>
+        /// Delete an attachment from blob storage.  This method will delete the blob only if it exists.
+        /// </summary>
+        /// <param name="noteId">Note id</param>
+        /// <param name="attachmentId">Attachment id</param>
+        /// <returns></returns>
+        public async Task<BlobStorageResponseDelete> DeleteAttachment(string noteId, string attachmentId)
+        {
+
+            var containerClient = await GetContainer(noteId);
             var blobClient = containerClient.GetBlobClient(attachmentId);
 
             if (!await blobClient.ExistsAsync())
@@ -175,7 +251,17 @@ namespace HW4NoteKeeper.DataAccessLayer
         /// <returns></returns>
         public async Task<BlobStorageResponseDelete> DeleteAttachmentContainer(Guid noteId)
         {
-            var containerClient = CreateBlobContainerClient(noteId.ToString());
+            return await DeleteAttachmentContainer(noteId.ToString());
+        }
+
+        /// <summary>
+        /// Delete an attachment container from blob storage.  This method will delete the container only if it exists.
+        /// </summary>
+        /// <param name="noteId">node id</param>
+        /// <returns>storage response</returns>
+        public async Task<BlobStorageResponseDelete> DeleteAttachmentContainer(string noteId)
+        {
+            var containerClient = CreateBlobContainerClient(noteId);
 
             if (!await containerClient.ExistsAsync())
             {
@@ -214,7 +300,18 @@ namespace HW4NoteKeeper.DataAccessLayer
         /// <returns>returns true if blob exists</returns>
         public async Task<bool> CheckIfBlobExists(Guid noteId, string blobId)
         {
-            var containerClient = await GetContainer(noteId.ToString());
+            return await CheckIfBlobExists(noteId.ToString(), blobId);
+        }
+
+        /// <summary>
+        /// Check if a blob exists in the container.  This method will return true if the blob exists, false if it does not exist.
+        /// </summary>
+        /// <param name="noteId">noteId</param>
+        /// <param name="blobId">blobId</param>
+        /// <returns>returns true if blob exists</returns>
+        public async Task<bool> CheckIfBlobExists(string noteId, string blobId)
+        {
+            var containerClient = await GetContainer(noteId);
             var blobClient = containerClient.GetBlobClient(blobId);
 
             if (await blobClient.ExistsAsync())
@@ -307,6 +404,28 @@ namespace HW4NoteKeeper.DataAccessLayer
             { 
                 metaData.Add("Created", DateTime.UtcNow.ToString("o"));
             }
+
+            return metaData;
+        }
+
+        /// <summary>
+        /// Get metadata for the uploading of a zip blob.
+        /// </summary>
+        /// <param name="blobClient">blob client</param>
+        /// <param name="attachment">attachment</param>
+        /// <returns></returns>
+        private Dictionary<string, string> GetMetaDataForZipUploadedBlob(BlobClient blobClient, Attachment attachment)
+        {
+            var metaData = new Dictionary<string, string>
+            {
+                { "zipFileId", attachment.NoteId.ToString() },
+                { "AttachmentId", attachment.AttachmentId.ToString() },     // AttachmentId is tracked but it should match the blob name which is already retrievable.
+            };
+
+            metaData.Add("Created", DateTime.UtcNow.ToString("o"));
+            metaData.Add("LastModified", DateTime.UtcNow.ToString("o"));
+            metaData.Add("contentType", "application/zip");
+            metaData.Add("Length", attachment.FileData.Length.ToString());
 
             return metaData;
         }

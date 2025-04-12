@@ -17,6 +17,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Factories\**" />
+	  <Content Remove="Factories\**" />
+	  <EmbeddedResource Remove="Factories\**" />
+	  <None Remove="Factories\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Azure.AI.OpenAI" Version="2.2.0-beta.2" />
 		<PackageReference Include="Azure.Identity" Version="1.14.0-beta.1" />
 		<PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
@@ -43,10 +50,6 @@
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<ExcludeFromPublish>true</ExcludeFromPublish>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Factories\" />
 	</ItemGroup>
 
 

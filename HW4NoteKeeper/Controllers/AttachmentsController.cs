@@ -69,7 +69,7 @@ namespace HW4NoteKeeper.Controllers
                     return NotFoundCustomResponse(_al, "Attachment not found", $"Attachment {attachmentId} not found in blob {noteId}.");
                 }
 
-                return Ok(fileStream);
+                return fileStream;  // This will default to a 200 code.
             }
             catch (Exception ex)
             {

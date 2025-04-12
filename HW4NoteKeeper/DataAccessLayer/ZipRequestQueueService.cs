@@ -20,7 +20,6 @@ namespace HW4NoteKeeper.DataAccessLayer
         public ZipRequestQueueService(ZipRequestQueueServiceSettings settings)
         {
             _queueClient = new QueueClient(settings.ConnectionString, settings.QueueName);
-
             _queueClient.CreateIfNotExists();
         }
 
